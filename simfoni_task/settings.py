@@ -177,7 +177,7 @@ LOGGING = {
         "file": {
             "level": "INFO",
             "class": "logging.FileHandler",
-            "filename": os.getenv("LOG_FILE"),
+            "filename": (os.path.join(BASE_DIR, "debug.log")),
         },
     },
     "loggers": {
