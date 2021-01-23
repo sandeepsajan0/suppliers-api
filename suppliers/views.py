@@ -56,16 +56,23 @@ class Login(TokenObtainPairView, APIView):
                 user = authenticate(
                     username=data["username"], password=data["password"]
                 )
-                supplier_id = user.supplier.get().id
-                refresh = RefreshToken.for_user(user)
-                return Response(
-                    {
-                        "account_id": supplier_id,
-                        "refresh": str(refresh),
-                        "access": str(refresh.access_token),
-                    },
-                    status=status.HTTP_200_OK,
-                )
+                if user:
+                    supplier_id=user.id
+                    print(user.supplier.all())
+                    if user.supplier.all():
+                        supplier_id = user.supplier.get().id
+                    refresh = RefreshToken.for_user(user)
+                    is_admin = user.is_superuser
+                    return Response(
+                        {
+                            "account_id": supplier_id,
+                            "is_admin":is_admin,
+                            "refresh": str(refresh),
+                            "access": str(refresh.access_token),
+                        },
+                        status=status.HTTP_200_OK,
+                    )
+                return Response(status=status.HTTP_404_NOT_FOUND)
             except Exception as e:
                 return Response({"message": str(e)}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
