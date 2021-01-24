@@ -1,0 +1,1 @@
+web: gunicorn simfoni_task.wsgi

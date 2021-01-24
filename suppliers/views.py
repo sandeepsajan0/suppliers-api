@@ -72,8 +72,7 @@ class Login(TokenObtainPairView, APIView):
                         },
                         status=status.HTTP_200_OK,
                     )
-                else:
-                    return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response(status=status.HTTP_404_NOT_FOUND)
             except Exception as e:
                 return Response({"message": str(e)}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
